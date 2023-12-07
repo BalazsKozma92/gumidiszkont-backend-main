@@ -46,7 +46,7 @@ const store = createStore({
     },
     
     login({commit}, data) {
-      return axiosClient.post('/api/login', data)
+      return axiosClient.post('/api/admin-login', data)
         .then(({data}) => {
           commit('setUser', data.user);
           commit('setToken', data.token)
@@ -209,8 +209,8 @@ const store = createStore({
     setUser(state, user) {
       if (user) {
         state.user.data = user;
-        console.log(state.user);
-        localStorage.setItem('userData', user)
+
+        localStorage.setItem('userData', JSON.stringify(user))
       } else {
         localStorage.removeItem('userData')
       }

@@ -41,14 +41,6 @@
           </div>
         </div>
 
-        <div class="flex items-center justify-between">
-          <div class="flex items-center">
-            <input id="remember-me" name="remember-me" type="checkbox" v-model="user.remember"
-                  class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"/>
-            <label for="remember-me" class="ml-2 block text-sm text-gray-900">Emlékezz rám</label>
-          </div>
-        </div>
-
         <div>
           <button
             type="submit"
@@ -110,15 +102,13 @@ function login() {
   loading.value = true;
 
   store.dispatch('login', user)
-    // .then(() => {
-    //   console.log('ads')
-    //   loading.value = false;
-    //   router.push({name: 'admin.dashboard'})
-    // })
-    // .catch(({response}) => {
-    //   loading.value = false;
-    //   errorMsg.value = response.data.message;
-    // })
+    .then(() => {
+      loading.value = false;
+    })
+    .catch(({response}) => {
+      loading.value = false;
+      errorMsg.value = response.data.message;
+    })
 }
 
 </script>

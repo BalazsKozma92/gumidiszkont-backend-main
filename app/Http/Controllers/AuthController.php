@@ -36,8 +36,6 @@ class AuthController extends Controller
         return response()->json(['message' => 'User registered successfully', 'user' => $user], 201);
     }
 
-
-
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
@@ -47,6 +45,29 @@ class AuthController extends Controller
 
             if ($user->email_verified_at === null) {
                 return response()->json(['message' => 'Email not verified'], 401);
+            }
+
+            $token = $user->createToken('authToken')->plainTextToken;
+
+            return response()->json(['token' => $token, 'user' => $user]);
+        }
+
+        return response()->json(['message' => 'Invalid credentials'], 401);
+    }
+
+    public function adminLogin(Request $request)
+    {
+        $credentials = $request->only('email', 'password');
+
+        if (Auth::attempt($credentials)) {
+            $user = Auth::user();
+
+            if ($user->email_verified_at === null) {
+                return response()->json(['message' => 'Email not verified'], 401);
+            }
+
+            if ($user->is_admin === 0) {
+                return response()->json(['message' => 'Not an admin user'], 401);
             }
 
             $token = $user->createToken('authToken')->plainTextToken;
