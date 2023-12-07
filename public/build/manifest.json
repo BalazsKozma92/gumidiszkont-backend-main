@@ -1,0 +1,31 @@
+{
+  "resources/css/app.css": {
+    "file": "assets/app-4ed993c7.js",
+    "isEntry": true,
+    "src": "resources/css/app.css"
+  },
+  "resources/js/app.css": {
+    "file": "assets/app-688aca19.css",
+    "src": "resources/js/app.css"
+  },
+  "resources/js/app.js": {
+    "assets": [
+      "assets/Prata-Regular-574345a3.ttf",
+      "assets/MavenPro-Regular-31253b96.ttf"
+    ],
+    "css": [
+      "assets/app-688aca19.css"
+    ],
+    "file": "assets/app-104409cb.js",
+    "isEntry": true,
+    "src": "resources/js/app.js"
+  },
+  "resources/js/assets/fonts/MavenPro-Regular.ttf": {
+    "file": "assets/MavenPro-Regular-31253b96.ttf",
+    "src": "resources/js/assets/fonts/MavenPro-Regular.ttf"
+  },
+  "resources/js/assets/fonts/Prata-Regular.ttf": {
+    "file": "assets/Prata-Regular-574345a3.ttf",
+    "src": "resources/js/assets/fonts/Prata-Regular.ttf"
+  }
+}

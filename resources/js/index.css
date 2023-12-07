@@ -1,0 +1,252 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: 'prata';
+    src: url('./assets/fonts/Prata-Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'mavenpro';
+    src: url('./assets/fonts/MavenPro-Regular.ttf') format('truetype');
+}
+
+.box {
+    width: 200px; height: 300px;
+    position: relative;
+    border: 1px solid #BBB;
+    background: #EEE;
+  }
+  .ribbon {
+    position: absolute;
+    right: -5px; top: -5px;
+    z-index: 1;
+    overflow: hidden;
+    width: 75px; height: 75px;
+    text-align: right;
+  }
+  .ribbon span {
+    font-size: 15px;
+    font-weight: bold;
+    color: #FFF;
+    text-transform: uppercase;
+    text-align: center;
+    line-height: 20px;
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    width: 100px;
+    display: block;
+    background: #b11e1e;
+    background: linear-gradient(#b11e1e 0%, #b11e1e 100%);
+    box-shadow: 0 3px 10px -5px rgba(0, 0, 0, 1);
+    position: absolute;
+    top: 19px; right: -21px;
+  }
+  .ribbon span::before {
+    content: "";
+    position: absolute; left: 0px; top: 100%;
+    z-index: -1;
+    border-left: 3px solid #b11e1e;
+    border-right: 3px solid transparent;
+    border-bottom: 3px solid transparent;
+    border-top: 3px solid #b11e1e;
+  }
+  .ribbon span::after {
+    content: "";
+    position: absolute; right: 0px; top: 100%;
+    z-index: -1;
+    border-left: 3px solid transparent;
+    border-right: 3px solid #b11e1e;
+    border-bottom: 3px solid transparent;
+    border-top: 3px solid #b11e1e;
+  }
+
+.product-group-title {
+    font-family: mavenpro;
+    font-weight: 600;
+}
+
+.carousel__prev,
+.carousel__next {
+    color: white !important;
+}
+
+.product-group-carousel .carousel__prev,
+.carousel__next {
+    color: white !important;
+    background-color: black !important;
+    border-radius: 999px;
+}
+
+.carousel__item,
+.recipes,
+.occasions,
+.description,
+.check-back h3 {
+    font-family: prata !important;
+    font-weight: 400 !important;
+    color: #202e3e !important;
+}
+
+.carousel__item p,
+.maven-pro {
+    font-family: mavenpro;
+    font-weight: 300;
+    color: rgba(32, 46, 62, .8);
+}
+
+.font-maven-pro {
+    font-family: mavenpro;
+}
+
+.font-prata {
+    font-family: prata;
+}
+
+.carousel__viewport {
+    overflow-y: unset;
+    overflow-x: clip;
+}
+
+.main-shadow {
+    --tw-shadow: 0px 0px 40px 0 rgb(0 0 0 / .3);
+    --tw-shadow-colored: inset 0 -1px 4px 0 var(--tw-shadow-color);
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
+.lesser-shadow {
+    --tw-shadow: 0px 0px 40px 0 rgb(0 0 0 / .2);
+    --tw-shadow-colored: inset 0 -1px 4px 0 var(--tw-shadow-color);
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
+.least-shadow {
+    --tw-shadow: 0px 0px 40px 0 rgb(0 0 0 / .1);
+    --tw-shadow-colored: inset 0 -1px 4px 0 var(--tw-shadow-color);
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
+p {
+    color: rgb(107 114 128) !important;
+}
+
+select {
+    background-image: none !important;
+}
+
+.vgt-wrap__footer .footer__row-count::after {
+    right: 30px;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #adb5c5;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #9fabc4;
+}
+
+table.vgt-table td {
+    font-weight: 400;
+}
+
+.vgt-table thead th {
+    font-size: 14px;
+}
+
+.tiptap {
+    display: flex;
+    flex-direction: column;
+}
+
+.tiptap p {
+    min-height: 14px;
+}
+
+.tiptap h1 {
+    font-size: 40px !important;
+}
+
+.tiptap h2 {
+    font-size: 30px !important;
+}
+
+.tiptap h3 {
+    font-size: 24px !important;
+}
+
+.tiptap h4 {
+    font-size: 20px !important;
+}
+
+.tiptap h5 {
+    font-size: 16px !important;
+}
+
+.tiptap h6 {
+    font-size: 12px !important;
+}
+
+.tiptap blockquote {
+    margin-left: 16px;
+    border-left: 3px solid rgb(131, 30, 131);
+    font-weight: bold;
+    padding-left: 20px;
+}
+
+.tiptap mark {
+    background-color: aqua;
+    padding: 2px 3px;
+}
+
+.tiptap ul {
+    list-style: disc;
+    margin-left: 28px;
+    padding: 0px;
+}
+
+.tiptap ol {
+    list-style: auto;
+    margin-left: 28px;
+    padding: 0px;
+}
+
+.tiptap code {
+    color: #616161;
+}
+
+.tiptap pre {
+    border-radius: 5px;
+    color: #333;
+}
+
+.tiptap hr {
+    align-self: center;
+    width: 95%;
+    margin: 15px 0;
+    border-bottom: 1px solid rgba(0, 0, 0, .2);
+}
+
+.tiptap.ProseMirror {
+    border: 1px solid rgba(0, 0, 0, .3) !important;
+    outline: none;
+    padding: 5px 10px;
+}
+
+.tiptap.ProseMirror-focuse {
+    outline: none;
+}
