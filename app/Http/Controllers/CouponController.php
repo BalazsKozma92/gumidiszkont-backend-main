@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Coupon;
 use Illuminate\Http\Request;
+use App\Models\User;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class CouponController extends Controller
@@ -18,24 +19,33 @@ class CouponController extends Controller
         }
     }
 
-    public function generateCoupon(Request $request)
+    public function generateCoupons(Request $request)
     {
         $validatedData = $request->validate([
+            'count' => 'required|numeric',
             'value' => 'required|numeric',
             'expiration_date' => 'required|date',
         ]);
 
-        $coupon = new Coupon();
-        $coupon->value = $validatedData['value'];
-        $coupon->expiration_date = $validatedData['expiration_date'];
-        $coupon->save();
+        $users = User::all();
 
-        $qrCodeContent = 'Coupon-' . $coupon->id;
-        $coupon->qr_code = QrCode::size(200)->generate($qrCodeContent);
-        $coupon->save();
+        foreach ($users as $user) {
+            for ($i = 0; $i < $validatedData['count']; $i++) {
+                $coupon = new Coupon();
+                $coupon->user_id = $user->id;
+                $coupon->value = $validatedData['value'];
+                $coupon->expiration_date = $validatedData['expiration_date'];
+                $coupon->save();
 
-        return response()->json(['message' => 'Coupon generated successfully', 'coupon' => $coupon], 201);
+                $qrCodeContent = 'Coupon-' . $coupon->id;
+                $coupon->qr_code = QrCode::size(200)->generate($qrCodeContent);
+                $coupon->save();
+            }
+        }
+
+        return response()->json(['message' => 'Coupons generated successfully'], 201);
     }
+
 
     public function markAsUsed(Coupon $coupon)
     {

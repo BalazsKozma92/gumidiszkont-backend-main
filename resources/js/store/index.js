@@ -88,7 +88,7 @@ const store = createStore({
     getCoupons({commit}) {
       commit('setLoading', true)
 
-      return axiosClient.get('/coupons')
+      return axiosClient.get('/api/coupons')
         .then((response) => {
           commit('setLoading', false)
           commit('setCoupons', response.data)
@@ -131,8 +131,14 @@ const store = createStore({
       return axiosClient.post('/carousel-images', carouselImage)
     },
 
-    createCoupon({commit}, coupon) {
-      return axiosClient.post('/coupons', coupon)
+    createCoupons({commit}) {
+      const couponData = {
+        count: 2,
+        value: 5000,
+        expiration_date: '2023-12-31',
+      };
+
+      return axiosClient.post('api/coupons/generate', couponData)
     },
 
     /////////////////////// DELETE /////////////////////
@@ -254,7 +260,7 @@ const store = createStore({
 
     setCoupons(state, data = null) {
       if (data) {
-        state.coupons = data.data;
+        state.coupons = data.coupons;
       }
     },
 

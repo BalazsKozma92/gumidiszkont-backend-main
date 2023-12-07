@@ -2,22 +2,23 @@
     <div
         class="animate-fade-in-down"
     >
-        <div
-            v-if="!coupons || Object.keys(coupons).length === 0"     
+        <!-- <div
+            v-if="!coupons || coupons.length === 0"     
             class="text-xl mt-8 font-thin"  
         >
             Még nem hoztál létre kupont
-        </div>
+        </div> -->
         <div
-            v-else
+           
             class="flex flex-col gap-4"
         >
             <div
-                v-for="(details, key) in coupons"
+                v-for="(coupon, key) in coupons"
                 :key="key"
                 class="bg-gray-50 p-4 shadow-lg"
             >
-                <div
+                <div v-html="coupon.qr_code" alt="Coupon QR Code"></div>
+                <!-- <div
                     class="rounded-md p-2 flex gap-5 justify-between"
                 >
                     <div
@@ -80,10 +81,11 @@
                             @click="showDeleteModalFn(details)"
                         />
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
+    <button @click="generateCoupons()">GENERATE</button>
     <DeleteModal
         v-if="showDeleteModal"
         :coupon="selectedCoupon"
@@ -113,6 +115,10 @@ const selectedCoupon = ref(null);
 const showDeleteModal = ref(false);
 const showEditModal = ref(false);
 
+function generateCoupons() {
+    store.dispatch('createCoupons');
+}
+
 function getCoupons(url = null) {
     store.dispatch('getCoupons');
 }
@@ -133,9 +139,9 @@ function closeModal() {
 }
 
 onMounted(() => {
-    // if (!coupons.value) {
-    //     getCoupons();
-    // }
+    if (!coupons.value) {
+        getCoupons();
+    }
 })
 </script>
     

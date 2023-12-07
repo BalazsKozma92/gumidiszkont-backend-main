@@ -17,11 +17,12 @@ use App\Http\Controllers\CouponController;
 |
 */
 
-Route::middleware(['auth:sanctum', 'admin'])->group(function () {
+//ADD ADMIN MIDDLEWARE
+
     Route::get('/coupons', [CouponController::class, 'index']);
-    Route::post('/coupons/generate', [CouponController::class, 'generateCoupon']);
+    Route::post('/coupons/generate', [CouponController::class, 'generateCoupons']);
     Route::put('/coupons/{coupon}/use', [CouponController::class, 'markAsUsed']);
-});
+
 
 Route::get('/email-verification/{token}', [VerificationController::class, 'verify'])->name('verification.verify');
 
