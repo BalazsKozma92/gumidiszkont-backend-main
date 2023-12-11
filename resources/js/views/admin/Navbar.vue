@@ -64,6 +64,7 @@
   </template>
   
   <script setup>
+  import { onMounted } from 'vue'
   import { MenuIcon, LogoutIcon, UserIcon } from '@heroicons/vue/outline'
   import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
   import { ChevronDownIcon } from '@heroicons/vue/solid'
@@ -79,6 +80,11 @@
       })
   }
   
+  onMounted(() => {
+    if (!store.state.user.data) {
+      store.dispatch('setUserOnReload')
+    }
+  })
   </script>
   
   <style scoped>

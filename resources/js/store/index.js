@@ -50,10 +50,13 @@ const store = createStore({
         .then(({data}) => {
           commit('setUser', data.user);
           commit('setToken', data.token)
-          console.log(this.state.user)
           router.push({name: 'admin.dashboard'})
           return data;
         })
+    },
+
+    setUserOnReload({commit}) {
+      commit('setUserOnReload')
     },
 
     logout({commit}) {
@@ -220,6 +223,11 @@ const store = createStore({
       } else {
         localStorage.removeItem('userData')
       }
+    },
+
+    setUserOnReload(state) {
+      state.user.data = JSON.parse(localStorage.getItem('userData'))
+      state.user.token = JSON.parse(localStorage.getItem('TOKEN'))
     },
     
     setToken(state, token) {
