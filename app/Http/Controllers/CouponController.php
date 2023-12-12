@@ -6,6 +6,8 @@ use App\Models\Coupon;
 use Illuminate\Http\Request;
 use App\Models\User;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class CouponController extends Controller
 {
@@ -23,9 +25,14 @@ class CouponController extends Controller
         }
     }
 
+    public function show(Request $request, Coupon $coupon) {
+        return response()->json($coupon);
+    }
+
     public function myCoupons(Request $request, User $user) {
         try {
-            $coupons = $user->coupons()->get();
+            $currentDate = Carbon::now();
+            $coupons = $user->coupons()->where('expiration_date', '>', $currentDate)->get();
     
             return response()->json(['coupons' => $coupons], 200);
         } catch (\Exception $e) {
@@ -89,6 +96,22 @@ class CouponController extends Controller
             return response()->json(['message' => 'Coupon marked as used', 'coupon' => $coupon], 200);
         } else {
             return response()->json(['message' => 'Coupon not found'], 404);
+        }
+    }
+
+    public function deleteCoupons(Request $request)
+    {
+        try {
+            $couponIds = $request->input('coupon_ids');
+
+            DB::beginTransaction();
+            Coupon::whereIn('id', $couponIds)->delete();
+            DB::commit();
+
+            return response()->json(['message' => 'A kuponok sikeresen törölve'], 200);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['error' => 'Valami hiba történt'], 500);
         }
     }
 }

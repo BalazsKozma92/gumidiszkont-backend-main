@@ -172,10 +172,12 @@ const store = createStore({
         .catch(() => {})
     },
 
-    deleteCoupon({commit}, id) {
+    deleteCoupons({commit}, ids) {
       commit('setLoading', true);
 
-      return axiosClient.delete(`/coupons/${id}`)
+      const deletionArray = {coupon_ids: ids}
+
+      return axiosClient.post(`/api/coupons/delete`, deletionArray)
         .then((response) => {
           commit('setLoading', false)
         })

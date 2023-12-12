@@ -20,9 +20,11 @@ use App\Http\Controllers\UserController;
 //ADD ADMIN MIDDLEWARE
 
 Route::get('/users', [UserController::class, 'index']);
+Route::get('/coupons/{coupon}', [CouponController::class, 'show']);
 Route::get('/coupons', [CouponController::class, 'index']);
 Route::get('/my-coupons/{user}', [CouponController::class, 'myCoupons']);
 Route::post('/coupons/generate', [CouponController::class, 'generateCoupons']);
+Route::post('/coupons/delete', [CouponController::class, 'deleteCoupons']);
 Route::put('/coupons/{coupon}/use', [CouponController::class, 'markAsUsed']);
 
 
