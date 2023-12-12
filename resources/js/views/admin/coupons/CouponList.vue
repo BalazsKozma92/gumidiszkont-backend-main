@@ -2,12 +2,12 @@
     <div
         class="animate-fade-in-down"
     >
-        <!-- <div
+        <div
             v-if="!coupons || coupons.length === 0"     
             class="text-xl mt-8 font-thin"  
         >
             Még nem hoztál létre kupont
-        </div> -->
+        </div>
         <div
            
             class="flex flex-col gap-4"
@@ -17,75 +17,21 @@
                 :key="key"
                 class="bg-gray-50 p-4 shadow-lg"
             >
-                <div v-html="coupon.qr_code" alt="Coupon QR Code"></div>
-                <!-- <div
-                    class="rounded-md p-2 flex gap-5 justify-between"
+                <div
+                    v-for="(singleCoupon, couponKey) in coupon"
+                    :key="couponKey"
+                    class="bg-gray-50 p-4 shadow-lg flex flex-col gap-4"
                 >
-                    <div
-                        class="flex gap-5 items-center"
+                    <div 
+                        class=""
+                        v-html="singleCoupon.qr_code"
+                        alt="Coupon QR Code"
                     >
-                        <div
-                            class="text-lg"
-                        >
-                            {{ details.code }}
-                        </div>/
-                        <div
-                            class="text-md"
-                        >
-                            {{ details.type === 'percentage' ? 'Százalékos' : 'Pontos érték' }}
-                        </div>/
-                        <div
-                            class="text-md"
-                        >
-                            {{ details.type === 'percentage' ?
-                                new Intl.NumberFormat('hu-HU', { style: 'percent', maximumFractionDigits: 0 }).format(details.discount / 100) :
-                                new Intl.NumberFormat('hu-HU', { style: 'currency', currency: 'HUF', maximumFractionDigits: 0 }).format(details.discount) }}
-                        </div>/
-                        <div
-                            class="flex gap-3 items-center"
-                        >
-                            <span>
-                                Közzétéve:
-                            </span>
-                            <CheckCircleIcon
-                                v-if="details.active"
-                                class="text-green-400"
-                                :class="'h-8 w-8'"
-                                aria-hidden="true"
-                            />
-                            <MinusCircleIcon
-                                v-else
-                                class="text-red-400"
-                                :class="'h-8 w-8'"
-                                aria-hidden="true"
-                            />
-                        </div>/
-                        <div
-                            class="text-md"
-                        >
-                            {{ details.event_start }} - {{ details.event_end }}
-                        </div>
                     </div>
-                    <div
-                        class="flex justify-center items-center gap-3 border-l-2 px-5"
-                    >
-                        <PencilIcon
-                            class="text-blue-500 cursor-pointer h-8 w-8"
-                            aria-hidden="true"
-                            @click="showEditModalFn(details)"
-                        />
-
-                        <XIcon
-                            class="text-red-500 cursor-pointer h-8 w-8"
-                            aria-hidden="true"
-                            @click="showDeleteModalFn(details)"
-                        />
-                    </div>
-                </div> -->
+                </div>
             </div>
         </div>
     </div>
-    <button @click="generateCoupons()">GENERATE</button>
     <DeleteModal
         v-if="showDeleteModal"
         :coupon="selectedCoupon"
@@ -115,22 +61,8 @@ const selectedCoupon = ref(null);
 const showDeleteModal = ref(false);
 const showEditModal = ref(false);
 
-function generateCoupons() {
-    store.dispatch('createCoupons');
-}
-
 function getCoupons(url = null) {
     store.dispatch('getCoupons');
-}
-
-function showDeleteModalFn(coupon) {
-    selectedCoupon.value = coupon;
-    showDeleteModal.value = true;
-}
-
-function showEditModalFn(coupon) {
-    selectedCoupon.value = coupon;
-    showEditModal.value = true;
 }
 
 function closeModal() {

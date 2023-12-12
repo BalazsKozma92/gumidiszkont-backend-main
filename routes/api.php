@@ -1,10 +1,10 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\VerificationController;
 use App\Http\Controllers\CouponController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,14 +19,18 @@ use App\Http\Controllers\CouponController;
 
 //ADD ADMIN MIDDLEWARE
 
-    Route::get('/coupons', [CouponController::class, 'index']);
-    Route::post('/coupons/generate', [CouponController::class, 'generateCoupons']);
-    Route::put('/coupons/{coupon}/use', [CouponController::class, 'markAsUsed']);
+Route::get('/users', [UserController::class, 'index']);
+Route::get('/coupons', [CouponController::class, 'index']);
+Route::get('/my-coupons/{user}', [CouponController::class, 'myCoupons']);
+Route::post('/coupons/generate', [CouponController::class, 'generateCoupons']);
+Route::put('/coupons/{coupon}/use', [CouponController::class, 'markAsUsed']);
 
 
 Route::get('/email-verification/{token}', [VerificationController::class, 'verify'])->name('verification.verify');
 
 Route::post('/register', [AuthController::class, 'register']);
+Route::post('/password-request', [AuthController::class, 'passwordRequest']);
+Route::post('/reset-password/{token}', [AuthController::class, 'resetPassword']);
 
 Route::middleware(['addcorsheaders'])->group(function () {
     Route::post('/login', [AuthController::class, 'login']);

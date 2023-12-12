@@ -7,8 +7,11 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Mail\UserRegisteredMail;
+use App\Mail\PasswordResetMail;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
 {
@@ -27,9 +30,8 @@ class AuthController extends Controller
             'confirmation_token' => strtoupper(Str::random(6)),
         ]);
 
-        $frontendBaseUrl = 'http://localhost:8100';
         $verificationPath = '/verify-email/' . $user->confirmation_token;
-        $verificationUrl = $frontendBaseUrl . $verificationPath;
+        $verificationUrl = $_ENV["APP_URL"] . $verificationPath;
 
         Mail::to($user->email)->send(new UserRegisteredMail($user->confirmation_token, $user->name, $verificationUrl));
 
@@ -76,5 +78,54 @@ class AuthController extends Controller
         }
 
         return response()->json(['message' => 'Invalid credentials'], 401);
+    }
+
+    public function passwordRequest(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email|exists:users,email',
+        ]);
+
+        $user = User::where('email', $request->email)->first();
+
+        $token = Str::random(60);
+        try {
+            DB::table('password_reset_tokens')->insert([
+                'email' => $user->email,
+                'token' => $token,
+                'created_at' => Carbon::now(),
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json(['message' => 'Erre az email címre már küldtünk egy linket.'], 409);    
+        }
+        
+        $resetPath = '/password-reset/' . $token;
+        $resetLink = $_ENV["APP_URL"] . $resetPath;
+        Mail::to($user->email)->send(new PasswordResetMail($user->name, $resetLink));
+
+        return response()->json(['message' => 'A jelszóemlékeztető emailt kiküldtük a megadott email címre.']);
+    }
+
+    public function resetPassword(Request $request, $token)
+    {
+        $request->validate([
+            'password' => 'required|min:5',
+        ]);
+
+        $resetRecord = DB::table('password_reset_tokens')
+            ->where('token', $token)
+            ->first();
+
+        if (!$resetRecord) {
+            return response()->json(['message' => 'Érvénytelen token. Kérjük igényelj egy másik jelszóváltoztató linket.'], 400);
+        }
+
+        $user = User::where('email', $resetRecord->email)->first();
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        DB::table('password_reset_tokens')->where('email', $resetRecord->email)->delete();
+
+        return response()->json(['message' => 'A jelszó sikeresen megváltoztatva!']);
     }
 }

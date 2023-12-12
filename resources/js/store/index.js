@@ -8,6 +8,7 @@ const store = createStore({
       data: null,
       token: null,
     },
+    users: null,
     news: null,
     singleNews: null,
     carouselImages: null,
@@ -66,6 +67,17 @@ const store = createStore({
     },
 
     /////////////////////// INDEX /////////////////////
+    getUsers({commit}) {
+      commit('setLoading', true)
+
+      return axiosClient.get('/api/users')
+        .then((response) => {
+          commit('setLoading', false)
+          commit('setUsers', response.data)
+        })
+        .catch(() => {})
+    },
+
     getNews({commit}) {
       commit('setLoading', true)
 
@@ -134,13 +146,7 @@ const store = createStore({
       return axiosClient.post('/carousel-images', carouselImage)
     },
 
-    createCoupons({commit}) {
-      const couponData = {
-        count: 2,
-        value: 5000,
-        expiration_date: '2023-12-31',
-      };
-
+    createCoupons({commit}, couponData) {
       return axiosClient.post('api/coupons/generate', couponData)
     },
 
@@ -241,6 +247,13 @@ const store = createStore({
         localStorage.setItem('TOKEN', JSON.stringify(tokenToStore));
       } else {
         localStorage.removeItem('TOKEN')
+      }
+    },
+
+    setUsers(state, data = null) {
+      if (data) {
+        console.log(data)
+        state.users = data.users;
       }
     },
 
