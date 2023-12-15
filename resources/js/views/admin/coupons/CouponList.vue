@@ -53,7 +53,10 @@
                         >
                         </div>
                         <div>
-                            Értéke: <span class="font-bold">{{ singleCoupon.value }} Ft</span>
+                            Neve: <span class="font-bold">{{ singleCoupon.name }}</span>
+                        </div>
+                        <div>
+                            Értéke: <span class="font-bold">{{ singleCoupon.value }}{{ singleCoupon.type === 'percentage' ? '%' : ' Ft' }}</span>
                         </div>
                         <div
                             class="flex gap-2 items-center"

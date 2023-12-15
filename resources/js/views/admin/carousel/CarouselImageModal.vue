@@ -13,15 +13,6 @@
           id="name" placeholder="Név" />
       </div>
 
-      <div class="relative mb-6">
-        <label for="sub_title" class="text-xs text-black text-opacity-70">
-          Alcím
-        </label>
-        <input v-model="carouselImage.sub_title" type="text"
-          class="peer block min-h-[auto] w-full rounded border-1 border-black border-opacity-40 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
-          id="sub_title" placeholder="Ár" />
-      </div>
-
       <div class="mb-6">
         <label for="image" class="text-xs text-black text-opacity-70">
           Kép
@@ -35,7 +26,7 @@
           hover:file:bg-blue-600" @input="uploadImage($event)" />
         <div class="relative w-full">
           <img v-if="newImage === false && carouselImage.image" class="w-full max-h-[250px] object-contain mt-8"
-            :src="'https://www.afonyabolt.hu/' + carouselImage.image" alt="">
+            :src="'http://localhost:8000/' + carouselImage.image" alt="">
           <img class="w-full max-h-[250px] object-contain mt-8 hidden" id="output">
         </div>
       </div>
@@ -68,7 +59,6 @@ const props = defineProps({
 const carouselImage = ref({
   id: props.carouselImage ? props.carouselImage.id : null,
   title: props.carouselImage ? props.carouselImage.title ? props.carouselImage.title : null : null,
-  sub_title: props.carouselImage ? props.carouselImage.sub_title ? props.carouselImage.sub_title : null : null,
   image: props.carouselImage ? props.carouselImage.image_url ? props.carouselImage.image_url : null : null,
   published: props.carouselImage ? props.carouselImage.published : false,
 })
@@ -82,7 +72,6 @@ function onSubmit() {
   if (!newImage.value) {
     carouselImageToSend.value.id = carouselImage.value.id
     carouselImageToSend.value.title = carouselImage.value.title
-    carouselImageToSend.value.sub_title = carouselImage.value.sub_title
     carouselImageToSend.value.published = carouselImage.value.published
   } else {
     carouselImageToSend.value = carouselImage.value
@@ -99,7 +88,7 @@ function onSubmit() {
   } else {
     store.dispatch('createCarouselImage', carouselImageToSend.value)
       .then(response => {
-        if (response.status === 201) {
+        if (response.status === 200) {
           store.dispatch('getCarouselImages')
           emit('close');
         }

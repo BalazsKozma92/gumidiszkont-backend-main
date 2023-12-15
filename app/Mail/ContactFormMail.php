@@ -9,21 +9,21 @@ use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Mail\Mailables\Address;
 
-class UserRegisteredMail extends Mailable
+class ContactFormMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $confirmationToken;
     public $name;
-    public $verificationUrl;
+    public $email;
+    public $contactMessage;
     /**
      * Create a new message instance.
      */
-    public function __construct($confirmationToken, $name, $verificationUrl)
+    public function __construct($name, $email, $contactMessage)
     {
-        $this->confirmationToken = $confirmationToken;
         $this->name = $name;
-        $this->verificationUrl = $verificationUrl;
+        $this->email = $email;
+        $this->contactMessage = $contactMessage;
     }
 
     /**
@@ -32,8 +32,8 @@ class UserRegisteredMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            from: new Address('noreply@gumidiszkont.hu', 'noreply'),
-            subject: 'Regisztráció',
+            from: new Address($this->email, $this->name),
+            subject: 'Kapcsolat',
         );
     }
 
@@ -43,7 +43,7 @@ class UserRegisteredMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.user_registered',
+            view: 'emails.contact',
         );
     }
 

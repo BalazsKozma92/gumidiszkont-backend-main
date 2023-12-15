@@ -7,6 +7,15 @@
 
       <div class="relative mt-6 mb-2">
         <label for="discount" class="text-xs text-black text-opacity-70">
+          Kupon neve
+        </label>
+        <input v-model="name" type="text"
+          class="peer block min-h-[auto] w-full rounded border-1 border-black border-opacity-40 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+          id="discount" placeholder="Kupon darabszám" />
+      </div>
+
+      <div class="relative mt-6 mb-2">
+        <label for="discount" class="text-xs text-black text-opacity-70">
           Kupon mennyiség felhasználónként
         </label>
         <input v-model="count" type="number"
@@ -21,6 +30,16 @@
         <input v-model="value" type="number"
           class="peer block min-h-[auto] w-full rounded border-1 border-black border-opacity-40 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
           id="discount" placeholder="Érték" />
+      </div>
+
+      <div class="relative mb-6">
+        <label for="type" class="text-xs text-black text-opacity-70">
+          Kedvezmény típusa
+        </label>
+        <select v-model="type" id="countries"
+          class="cursor-pointer bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+          <option v-for="(type, key) in [{label: 'Százalék', value: 'percentage'}, {label: 'Pontos érték', value: 'exact'}]" :value="type.value">{{ type.label }}</option>
+        </select>
       </div>
 
       <div class="relative mb-6">
@@ -76,11 +95,25 @@ import '@vuepic/vue-datepicker/dist/main.css'
 const users = computed(() => store.state.users);
 const count = ref(0)
 const value = ref(0)
+const type = ref('')
+const name = ref('')
 const expiration_date = ref('')
 const generateForAll = ref(true)
 const userToGenerateFor = ref(null)
 
 const emit = defineEmits(['close'])
+
+watch(() => value.value, (newValue) => {  
+  if (type.value === 'percentage' && newValue > 100) {
+    value.value = 100;
+  }
+});
+
+watch(() => type.value, (newValue) => {  
+  if (newValue === 'percentage' && value.value > 100) {
+    value.value = 100;
+  }
+});
 
 watch(() => userToGenerateFor.value, (newValue) => {  
   if (newValue !== null) {
@@ -93,7 +126,9 @@ function onSubmit() {
 
   store.dispatch('createCoupons', {
     count: count.value,
+    type: type.value,
     value: value.value,
+    name: name.value,
     expiration_date: expiration_date.value,
     all_users: generateForAll.value,
     user_id: userToGenerateFor.value

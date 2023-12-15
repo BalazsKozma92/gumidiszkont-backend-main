@@ -44,6 +44,8 @@ class CouponController extends Controller
     {
         $validatedData = $request->validate([
             'count' => 'required|numeric',
+            'type' => 'required|string',
+            'name' => 'required|string',
             'value' => 'required|numeric',
             'expiration_date' => 'required|date',
             'all_users' => 'required|boolean',
@@ -58,6 +60,8 @@ class CouponController extends Controller
                     $coupon = new Coupon();
                     $coupon->user_id = $user->id;
                     $coupon->value = $validatedData['value'];
+                    $coupon->type = $validatedData['type'];
+                    $coupon->name = $validatedData['name'];
                     $coupon->expiration_date = $validatedData['expiration_date'];
                     $coupon->save();
     
@@ -73,6 +77,8 @@ class CouponController extends Controller
                 $coupon = new Coupon();
                 $coupon->user_id = $user->id;
                 $coupon->value = $validatedData['value'];
+                $coupon->type = $validatedData['type'];
+                $coupon->name = $validatedData['name'];
                 $coupon->expiration_date = $validatedData['expiration_date'];
                 $coupon->save();
 

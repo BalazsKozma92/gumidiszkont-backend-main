@@ -139,9 +139,9 @@ function closeModal() {
 }
 
 onMounted(() => {
-    // if (!news.value) {
-    //     getNews();
-    // }
+    if (!news.value) {
+        getNews();
+    }
 })
 </script>
     

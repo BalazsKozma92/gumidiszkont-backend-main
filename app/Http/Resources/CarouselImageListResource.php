@@ -17,7 +17,6 @@ class CarouselImageListResource extends JsonResource
         return [
             'id' => $this->id,
             'title' => $this->title,
-            'sub_title' => $this->sub_title,
             'image_url' => $this->image ?: null,
             'published' => (bool)$this->published,
         ];

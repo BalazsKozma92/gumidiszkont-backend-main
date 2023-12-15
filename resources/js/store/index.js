@@ -37,7 +37,7 @@ const store = createStore({
     checkCoupon({commit}, coupon) {
       commit('setLoading', true)
 
-      return axiosClient.post('/coupon-check', { coupon: coupon })
+      return axiosClient.post('/api/coupon-check', { coupon: coupon })
         .then((response) => {
           commit('setCheckedCoupon', response.data.coupon);
           commit('setLoading', false)
@@ -81,7 +81,7 @@ const store = createStore({
     getNews({commit}) {
       commit('setLoading', true)
 
-      return axiosClient.get('/news')
+      return axiosClient.get('/api/all-news')
         .then((response) => {
           commit('setLoading', false)
           commit('setNews', response.data)
@@ -92,7 +92,7 @@ const store = createStore({
     getCarouselImages({commit}) {
       commit('setLoading', true)
 
-      return axiosClient.get('/carousel-images')
+      return axiosClient.get('/api/carousel-images')
         .then((response) => {
           commit('setLoading', false)
           commit('setCarouselImages', response.data)
@@ -116,7 +116,7 @@ const store = createStore({
     getSingleNews({commit}, id) {
       commit('setLoading', true)
 
-      return axiosClient.get(`/news/${id}`)
+      return axiosClient.get(`/api/news/${id}`)
         .then((response) => {
           commit('setLoading', false)
           commit('setSingleNews', response.data)
@@ -131,19 +131,18 @@ const store = createStore({
     
     /////////////////////// STORE /////////////////////
     createNews({commit}, news) {
-      return axiosClient.post('/news', news)
+      return axiosClient.post('/api/news', news)
     },
 
     createCarouselImage({commit}, carouselImage) {
       if (carouselImage.image instanceof File) {
         const form = new FormData();
         form.append('title', carouselImage.title);
-        form.append('sub_title', carouselImage.sub_title);
         form.append('image', carouselImage.image);
         form.append('published', carouselImage.published ? 1 : 0);
         carouselImage = form;
       }
-      return axiosClient.post('/carousel-images', carouselImage)
+      return axiosClient.post('/api/carousel-images', carouselImage)
     },
 
     createCoupons({commit}, couponData) {
@@ -155,7 +154,7 @@ const store = createStore({
     deleteNews({commit}, id) {
       commit('setLoading', true);
 
-      return axiosClient.delete(`/news/${id}`)
+      return axiosClient.delete(`/api/news/${id}`)
         .then((response) => {
           commit('setLoading', false)
         })
@@ -165,7 +164,7 @@ const store = createStore({
     deleteCarouselImage({commit}, id) {
       commit('setLoading', true);
 
-      return axiosClient.delete(`/carousel-images/${id}`)
+      return axiosClient.delete(`/api/carousel-images/${id}`)
         .then((response) => {
           commit('setLoading', false)
         })
@@ -189,7 +188,7 @@ const store = createStore({
       const id = news.id
       news._method = 'PUT'
       
-      return axiosClient.post(`/news/${id}`, news)
+      return axiosClient.post(`/api/news/${id}`, news)
     },
 
     updateCarouselImage({commit}, carouselImage) {
@@ -207,14 +206,14 @@ const store = createStore({
       } else {
         carouselImage._method = 'PUT'
       }
-      return axiosClient.post(`/carousel-images/${id}`, carouselImage)
+      return axiosClient.post(`/api/carousel-images/${id}`, carouselImage)
     },
 
     updateCoupon({commit}, coupon) {
       const id = coupon.id
       coupon._method = 'PUT'
       
-      return axiosClient.post(`/coupons/${id}`, coupon)
+      return axiosClient.post(`/api/coupons/${id}`, coupon)
     },
   },
 

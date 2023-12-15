@@ -24,7 +24,7 @@ class CarouselImageController extends Controller
         try {
             $query = CarouselImage::all();
 
-            return response()->json(['images' => $query], 200);
+            return CarouselImageListResource::collection($query);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Failed to fetch carousel images'], 500);
         }

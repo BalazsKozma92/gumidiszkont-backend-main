@@ -25,15 +25,10 @@
                     >
                         {{ details.title }}
                     </div>
-                    <div
-                        class="font-bold text-lg mb-4 cut-text"
-                    >
-                        {{ details.sub_title === 'null' ? '' : details.sub_title }}
-                    </div>
                     <img
                         v-if="details.image_url"
                         class="w-full object-contain mt-8 h-[200px]"
-                        :src="'https://www.afonyabolt.hu/' + details.image_url" alt=""
+                        :src="'http://localhost:8000/' + details.image_url" alt=""
                     >
                 </div>
                 <div>
@@ -123,9 +118,9 @@ function closeModal() {
 }
 
 onMounted(() => {
-    // if (!carouselImages.value) {
-    //     getCarouselImages();
-    // }
+    if (!carouselImages.value) {
+        getCarouselImages();
+    }
 })
 </script>
     

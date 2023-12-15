@@ -7,30 +7,89 @@
     class="animate-fade-in-down mx-48"
   >
     <div
-      class="grid grid-cols-2 justify-items-center text-center"
+      class="flex flex-wrap gap-8 text-center justify-center items-center mt-12"
     >
       <router-link :to="{ name: 'admin.news' }">
-        <div
-          class="font-thin text-[48px]"
+        <div class="
+          flex
+          flex-col
+          gap-4
+          border
+          border-indigo-700
+          border-opacity-50
+          rounded-xl
+          p-4
+          transition-colors
+          text-indigo-700
+          text-opacity-60
+          hover:text-[#ff2e2e]
+          hover:border-[#ff2e2e]
+          duration-200
+          items-center
+          justify-center"
         >
-          {{ news ? Object.keys(news).length : '0' }}
-        </div>  
-        <div
-          class="font-thin text-[20px] uppercase"
-        >
-          hír
+          <span class="mr-2">
+            <SpeakerphoneIcon class="w-28"/>
+          </span>
+          <span class="uppercase tracking-widest">
+            Hírek
+          </span>
         </div>
       </router-link>
+
+      <router-link :to="{ name: 'admin.carouselImages' }">
+        <div class="
+          flex
+          flex-col
+          gap-4
+          border
+          border-indigo-700
+          border-opacity-50
+          rounded-xl
+          p-4
+          transition-colors
+          text-indigo-700
+          text-opacity-60
+          hover:text-[#ff2e2e]
+          hover:border-[#ff2e2e]
+          duration-200
+          items-center
+          justify-center"
+        >
+          <span class="mr-2">
+            <PhotographIcon class="w-28"/>
+          </span>
+          <span class="uppercase tracking-widest">
+            Főoldali képek
+          </span>
+        </div>
+      </router-link>
+
       <router-link :to="{ name: 'admin.coupons' }">
-        <div
-          class="font-thin text-[48px]"
+        <div class="
+          flex
+          flex-col
+          gap-4
+          border
+          border-indigo-700
+          border-opacity-50
+          rounded-xl
+          p-4
+          transition-colors
+          text-indigo-700
+          text-opacity-60
+          hover:text-[#ff2e2e]
+          hover:border-[#ff2e2e]
+          duration-200
+          items-center
+          justify-center"
         >
-          {{ coupons ? Object.keys(coupons).length : '0' }}
-        </div>  
-        <div
-          class="font-thin text-[20px] uppercase"
-        >
-          kupon
+          <span class="mr-2">
+            <TagIcon class="w-28"/>
+          </span>
+          <span class="uppercase tracking-widest">
+            Kuponok
+          </span>
         </div>
       </router-link>
     </div>
@@ -38,51 +97,7 @@
 </template>
   
 <script setup>
-import { ref, onMounted, computed } from "vue";
-import store from "../../store/index.js";
-
-// const news = computed(() => store.state.news);
-// const coupons = computed(() => store.state.coupons);
-const news = ref(null)
-const coupons = ref(null)
-
-function getNews() {
-  store.dispatch('getNews');
-}
-
-function getProductGroups() {
-  store.dispatch('getProductGroups');
-}
-
-function getProducts() {
-  store.dispatch('getProducts');
-}
-
-function getRecipes() {
-  store.dispatch('getRecipes');
-}
-
-function getCoupons() {
-  store.dispatch('getCoupons');
-}
-
-onMounted(() => {
-  // if (!news.value) {
-  //   getNews()
-  // }
-  // if (!productGroups.value) {
-  //   getProductGroups()
-  // }
-  // if (!products.value) {
-  //   getProducts()
-  // }
-  // if (!recipes.value) {
-  //   getRecipes()
-  // }
-  // if (!coupons.value) {
-  //   getCoupons()
-  // }
-})
+import { HomeIcon, SpeakerphoneIcon, PhotographIcon, TagIcon } from '@heroicons/vue/outline'
 </script>
   
 <style scoped></style>

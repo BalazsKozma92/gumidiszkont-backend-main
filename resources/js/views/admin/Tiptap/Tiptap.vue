@@ -59,7 +59,6 @@
         </button>
     </div>
     <editor-content class="editor-content" :editor="editor" />
-    {{ modelValue }}
 </template>
     
 <script setup>
