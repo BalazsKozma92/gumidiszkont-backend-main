@@ -26,7 +26,7 @@
           hover:file:bg-blue-600" @input="uploadImage($event)" />
         <div class="relative w-full">
           <img v-if="newImage === false && carouselImage.image" class="w-full max-h-[250px] object-contain mt-8"
-            :src="'http://localhost:8000/' + carouselImage.image" alt="">
+            :src="'https://admin.autoszervizmiskolc.hu/' + carouselImage.image" alt="">
           <img class="w-full max-h-[250px] object-contain mt-8 hidden" id="output">
         </div>
       </div>

@@ -28,7 +28,7 @@
                     <img
                         v-if="details.image_url"
                         class="w-full object-contain mt-8 h-[200px]"
-                        :src="'http://localhost:8000/' + details.image_url" alt=""
+                        :src="'https://admin.autoszervizmiskolc.hu/' + details.image_url" alt=""
                     >
                 </div>
                 <div>

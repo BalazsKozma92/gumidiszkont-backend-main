@@ -26,13 +26,20 @@ class CouponController extends Controller
     }
 
     public function show(Request $request, Coupon $coupon) {
-        return response()->json($coupon);
+        if (!$coupon->used) {
+            return response()->json($coupon);
+        }
+
+        return response()->json(['error' => 'A kupon már fel lett használva'], 402);
     }
 
     public function myCoupons(Request $request, User $user) {
         try {
             $currentDate = Carbon::now();
-            $coupons = $user->coupons()->where('expiration_date', '>', $currentDate)->get();
+            $coupons = $coupons = $user->coupons()
+                ->where('expiration_date', '>', $currentDate)
+                ->where('used', '!=', 1) // Exclude used coupons
+                ->get();
     
             return response()->json(['coupons' => $coupons], 200);
         } catch (\Exception $e) {
@@ -94,16 +101,17 @@ class CouponController extends Controller
 
     public function markAsUsed(Coupon $coupon)
     {
-        if ($coupon) {
+        if ($coupon && !$coupon->used) {
             $coupon->used = true;
             $coupon->used_at = now();
             $coupon->save();
 
             return response()->json(['message' => 'Coupon marked as used', 'coupon' => $coupon], 200);
         } else {
-            return response()->json(['message' => 'Coupon not found'], 404);
+            return response()->json(['message' => 'Coupon not found or already used'], 404);
         }
     }
+
 
     public function deleteCoupons(Request $request)
     {

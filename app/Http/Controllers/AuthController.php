@@ -31,7 +31,7 @@ class AuthController extends Controller
         ]);
 
         $verificationPath = '/verify-email/' . $user->confirmation_token;
-        $verificationUrl = $_ENV["APP_URL"] . $verificationPath;
+        $verificationUrl = $_ENV["VITE_API_BASE_URL"] . $verificationPath;
 
         Mail::to($user->email)->send(new UserRegisteredMail($user->confirmation_token, $user->name, $verificationUrl));
 
@@ -100,7 +100,7 @@ class AuthController extends Controller
         }
         
         $resetPath = '/password-reset/' . $token;
-        $resetLink = $_ENV["APP_URL"] . $resetPath;
+        $resetLink = $_ENV["VITE_API_BASE_URL"] . $resetPath;
         Mail::to($user->email)->send(new PasswordResetMail($user->name, $resetLink));
 
         return response()->json(['message' => 'A jelszóemlékeztető emailt kiküldtük a megadott email címre.']);
